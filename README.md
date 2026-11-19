@@ -2,6 +2,34 @@
 
 A local tool for reviewing Kubernetes security settings and checking proposed fixes before downloading YAML.
 
+## New to this? Start here
+
+- **Kubernetes** runs and manages applications packaged in containers. A container bundles an application with what it needs to run.
+- A **Deployment** describes how an application should run: which container image to use, how many copies to start, and what permissions it gets.
+- **YAML** is the text-file format used to write that configuration. A setting can accidentally give an application more access than it needs.
+- **ConfigShield AI** reads that file, points out selected security issues, explains possible changes, and checks a proposed version before you download it. You do not need a running Kubernetes cluster to try it.
+
+### A simple example
+
+- Your YAML contains `privileged: true`, giving the container broad access to the host computer.
+- The scanner flags it. You confirm whether the application actually needs that access.
+- If it does not, a suggestion may change the setting to `privileged: false` in a separate copy.
+- You compare both versions and run checks. If a suggestion conflicts with a declared need, the app blocks it.
+- You decide whether to download the result. ConfigShield does not run or deploy your application, and passing its checks does not guarantee the application will work.
+
+### Words used in the app
+
+| Term | Meaning |
+| --- | --- |
+| Finding | A setting flagged by a selected security check; it does not mean an attack happened. |
+| Application requirements | What the application needs to function, such as API access or special permissions. Leave uncertain answers Unknown. |
+| Suggestion | A proposed change from Gemini or the mock example; it has not yet been independently verified. |
+| Candidate | A separate YAML copy containing approved changes. The original stays unchanged. |
+| Verification | Checks of the candidate's structure, selected security settings, and declared requirements; not a test of the running application. |
+| Mock mode | A scripted example that demonstrates the workflow without contacting Gemini or needing an API key. |
+
+## What it does
+
 - Scans seven security policies with Checkov.
 - Retrieves reviewed Kubernetes and OWASP guidance.
 - Uses optional Gemini suggestions or a mock mode that needs no API key.
@@ -38,7 +66,7 @@ flowchart TD
 - No extra/init/ephemeral containers or YAML aliases.
 - Static checks do not prove runtime compatibility or complete security.
 
-## Setup ? Windows PowerShell
+## Setup (Windows PowerShell)
 
 - Install **Git**, **Python 3.12**, and **Node.js**. Tested with Node 24.14.0.
 - No Docker, Kubernetes cluster, or API key is needed for mock mode.
@@ -134,6 +162,6 @@ npm.cmd run build
 
 - [Architecture and trust boundaries](docs/architecture.md)
 - [Dataset contents and source records](docs/datasets.md)
-- [Demo script](docs/demo.md) ? [Devpost draft](docs/submission.md)
+- [Demo script](docs/demo.md) / [Devpost draft](docs/submission.md)
 - [GitHub sharing and Git commands](docs/github-sharing.md)
 - [Apache 2.0 license](LICENSE). The imported KustomizeGoat example has separate source/reuse notes in the dataset guide.
