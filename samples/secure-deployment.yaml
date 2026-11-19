@@ -1,0 +1,34 @@
+# Reference for the selected checks only; runtime compatibility is not tested.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: selected-checks-reference
+  namespace: demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: selected-checks-reference
+  template:
+    metadata:
+      labels:
+        app: selected-checks-reference
+    spec:
+      os:
+        name: linux
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: web
+          image: nginxinc/nginx-unprivileged:1.27
+          securityContext:
+            privileged: false
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            capabilities:
+              drop:
+                - ALL

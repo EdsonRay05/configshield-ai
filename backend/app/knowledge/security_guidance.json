@@ -1,0 +1,122 @@
+[
+  {
+    "document_id": "pss-privileged",
+    "title": "Pod Security Standards: privileged containers",
+    "category": "privileged_container",
+    "check_ids": ["CKV_K8S_16"],
+    "tags": ["linux", "privileged", "baseline"],
+    "source_url": "https://kubernetes.io/docs/concepts/security/pod-security-standards/#baseline",
+    "reviewed_on": "2026-11-17",
+    "applicable_condition": "A supported Linux Deployment fails the privileged-container check.",
+    "guidance": "Baseline policy disallows privileged containers. Leave privileged unset or set it to false.",
+    "limitation": "Host or device access needs human review before changing this setting."
+  },
+  {
+    "document_id": "pss-escalation",
+    "title": "Pod Security Standards: privilege escalation",
+    "category": "privilege_escalation",
+    "check_ids": ["CKV_K8S_20"],
+    "tags": ["linux", "privilege-escalation", "restricted"],
+    "source_url": "https://kubernetes.io/docs/concepts/security/pod-security-standards/#restricted",
+    "reviewed_on": "2026-11-17",
+    "applicable_condition": "The selected check reports privilege escalation is not disabled.",
+    "guidance": "For Linux workloads, Restricted policy requires allowPrivilegeEscalation: false on containers.",
+    "limitation": "Application behavior under this restriction is not tested by retrieval."
+  },
+  {
+    "document_id": "pss-non-root",
+    "title": "Pod Security Standards: non-root execution",
+    "category": "non_root",
+    "check_ids": ["CKV_K8S_23"],
+    "tags": ["linux", "non-root", "restricted"],
+    "source_url": "https://kubernetes.io/docs/concepts/security/pod-security-standards/#restricted",
+    "reviewed_on": "2026-11-17",
+    "applicable_condition": "The selected check reports missing or incompatible non-root settings.",
+    "guidance": "Restricted policy requires runAsNonRoot: true at pod or container level and prohibits an explicit runAsUser of zero.",
+    "limitation": "Checkov may accept a positive runAsUser alone; that does not establish full Restricted-policy compliance."
+  },
+  {
+    "document_id": "pss-capabilities",
+    "title": "Pod Security Standards: Linux capabilities",
+    "category": "capabilities",
+    "check_ids": ["CKV_K8S_28", "CKV_K8S_37"],
+    "tags": ["linux", "capabilities", "net-raw", "restricted"],
+    "source_url": "https://kubernetes.io/docs/concepts/security/pod-security-standards/#restricted",
+    "reviewed_on": "2026-11-17",
+    "applicable_condition": "A selected capability-dropping check fails on the application container.",
+    "guidance": "Restricted Linux policy requires dropping ALL capabilities; only NET_BIND_SERVICE may be added back.",
+    "limitation": "The selected dropping checks do not independently establish that added capabilities satisfy the entire policy."
+  },
+  {
+    "document_id": "pss-seccomp",
+    "title": "Pod Security Standards: seccomp profiles",
+    "category": "seccomp",
+    "check_ids": ["CKV_K8S_31"],
+    "tags": ["linux", "seccomp", "restricted"],
+    "source_url": "https://kubernetes.io/docs/concepts/security/pod-security-standards/#restricted",
+    "reviewed_on": "2026-11-17",
+    "applicable_condition": "The selected seccomp policy reports a failed check.",
+    "guidance": "Restricted Linux policy permits RuntimeDefault or Localhost seccomp profiles, configured at pod level or for every container.",
+    "limitation": "CKV_K8S_31 in the pinned Checkov release prefers RuntimeDefault; a Localhost profile can meet the documented standard yet fail that check."
+  },
+  {
+    "document_id": "k8s-context-non-root",
+    "title": "Security context: pod and container settings",
+    "category": "non_root",
+    "check_ids": ["CKV_K8S_23"],
+    "tags": ["linux", "non-root", "security-context"],
+    "source_url": "https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container",
+    "reviewed_on": "2026-11-17",
+    "applicable_condition": "Pod and container user settings need review together.",
+    "guidance": "Container security settings override corresponding pod settings for that container. Review both locations when choosing a non-root user.",
+    "limitation": "A successful static check does not prove that the image or mounted files work with the chosen user."
+  },
+  {
+    "document_id": "k8s-context-capabilities",
+    "title": "Security context: add or drop capabilities",
+    "category": "capabilities",
+    "check_ids": ["CKV_K8S_28", "CKV_K8S_37"],
+    "tags": ["linux", "capabilities", "security-context"],
+    "source_url": "https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-capabilities-for-a-container",
+    "reviewed_on": "2026-11-17",
+    "applicable_condition": "The application container needs a capabilities review.",
+    "guidance": "Use the container securityContext.capabilities fields to add or drop individual Linux privileges. Capability names in manifests omit the CAP_ prefix.",
+    "limitation": "Determine application requirements before removing permissions; retrieval does not test them."
+  },
+  {
+    "document_id": "k8s-service-account",
+    "title": "Service accounts: opt out of credential automounting",
+    "category": "service_account_token",
+    "check_ids": ["CKV_K8S_38"],
+    "tags": ["service-account", "token", "api-access"],
+    "source_url": "https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#opt-out-of-api-credential-automounting",
+    "reviewed_on": "2026-11-17",
+    "applicable_condition": "The selected token-mounting check fails; confirm whether the application needs API credentials.",
+    "guidance": "Set automountServiceAccountToken: false in the pod specification to opt out of automatic API credential mounting. The pod setting takes precedence over the ServiceAccount setting.",
+    "limitation": "Disabling automount can affect applications using those credentials. An omitted field alone cannot reveal the referenced ServiceAccount configuration."
+  },
+  {
+    "document_id": "owasp-least-privilege",
+    "title": "OWASP: assess container privileges",
+    "category": "least_privilege",
+    "check_ids": ["CKV_K8S_16", "CKV_K8S_20", "CKV_K8S_23", "CKV_K8S_28", "CKV_K8S_31", "CKV_K8S_37"],
+    "tags": ["least-privilege", "security-context", "application-requirements"],
+    "source_url": "https://cheatsheetseries.owasp.org/cheatsheets/Kubernetes_Security_Cheat_Sheet.html#continuously-assess-the-privileges-used-by-containers",
+    "reviewed_on": "2026-11-17",
+    "applicable_condition": "Reviewing a selected container privilege finding.",
+    "guidance": "Grant containers only the privileges and capabilities required for their intended function. Reassess those privileges as the application changes.",
+    "limitation": "General least-privilege guidance is not evidence that a particular configuration change preserves application behavior."
+  },
+  {
+    "document_id": "owasp-token-mounting",
+    "title": "OWASP: limit automatic API credentials",
+    "category": "service_account_token",
+    "check_ids": ["CKV_K8S_38"],
+    "tags": ["least-privilege", "service-account", "api-access"],
+    "source_url": "https://cheatsheetseries.owasp.org/cheatsheets/Kubernetes_Security_Cheat_Sheet.html#utilize-pod-security-standards-and-the-built-in-pod-security-admission-controller-to-enforce-container-privilege-levels",
+    "reviewed_on": "2026-11-17",
+    "applicable_condition": "Reviewing whether a pod requires automatically mounted Kubernetes API credentials.",
+    "guidance": "Disable automatic service-account token mounting when the pod does not need Kubernetes API credentials.",
+    "limitation": "The application owner must confirm credential requirements before accepting a change."
+  }
+]

@@ -1,0 +1,2 @@
+# Separate environment: Checkov has its own dependency tree.
+checkov==3.4.5

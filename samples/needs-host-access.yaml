@@ -1,0 +1,23 @@
+# Demo only. In the UI declare privileged host/device access as required.
+# This declaration is not inferred from comments or automatically sent to AI.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: host-access-demo
+spec:
+  selector:
+    matchLabels:
+      app: host-access-demo
+  template:
+    metadata:
+      labels:
+        app: host-access-demo
+    spec:
+      os:
+        name: linux
+      containers:
+        - name: device-agent
+          image: example.invalid/device-agent:demo
+          securityContext:
+            privileged: true
+            allowPrivilegeEscalation: true

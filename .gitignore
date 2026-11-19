@@ -1,0 +1,16 @@
+.venv/
+.scanner-venv/
+.tools/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.pytest-tmp/
+backend/evaluation/results/
+.env
+.env.*
+!.env.example
+node_modules/
+dist/
+frontend/browser-results/
+*.log
+.DS_Store

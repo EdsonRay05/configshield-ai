@@ -1,0 +1,11 @@
+{
+  "dataset_id": "kustomizegoat-base",
+  "source_url": "https://github.com/bridgecrewio/kustomizegoat",
+  "archive_entry": "kustomizegoat-main/kustomize/base/deployment.yaml",
+  "archive_sha256": "d5e31d39fcc0c885d17596b9d2455dd8a850ee0a9d9b0320e23f1f24fc5ad4d5",
+  "file_sha256": "3912f3601af496ea1f009648296981636e2117fd3de1cec3e646bc1834566b9a",
+  "modified": false,
+  "source_revision": "Unknown; user supplied main-branch ZIP",
+  "license_note": "No license file found in supplied ZIP. Retain attribution and review reuse terms before redistribution.",
+  "purpose": "External demo input; no manually reviewed repair ground truth."
+}

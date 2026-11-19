@@ -1,0 +1,10 @@
+{
+  "version": "v0.8.0",
+  "archive_url": "https://github.com/yannh/kubeconform/releases/download/v0.8.0/kubeconform-windows-amd64.zip",
+  "archive_sha256": "e3f56102bcf4f50b034a567e2482a1c5330799983ddd655952310211aef73d93",
+  "binary_sha256": "642bf8ea0d614a8c75d2bd012eb6042a90589ff846c69f04863afa446b30f2c1",
+  "kubernetes_version": "1.35.0",
+  "schema_commit": "7464e8eb55dab7063a4e6cb6cd6e2ed19f399580",
+  "schema_url": "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/7464e8eb55dab7063a4e6cb6cd6e2ed19f399580/v1.35.0-standalone-strict/deployment-apps-v1.json",
+  "schema_sha256": "46dc7cc4bec2c9a62400491e2b8057635afbfa6838999c518f7bea5c621a989b"
+}

@@ -1,0 +1,1169 @@
+{
+  "dataset_version": 1,
+  "seed": 20261117,
+  "case_count": 42,
+  "reference_sha256": "b20b03acae79ec959a9dbdbbced011f3a23892ecc8f559c5eb05c22646f63170",
+  "cases": [
+    {
+      "case_id": "ckv_k8s_16-explicit",
+      "variant": "explicit",
+      "check_id": "CKV_K8S_16",
+      "yaml": "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: ckv-k8s-16-explicit\n  namespace: demo\nspec:\n  replicas: 1\n  selector:\n    matchLabels:\n      app: selected-checks-reference\n  template:\n    metadata:\n      labels:\n        app: selected-checks-reference\n    spec:\n      os:\n        name: linux\n      automountServiceAccountToken: false\n      securityContext:\n        runAsNonRoot: true\n        runAsUser: 10001\n        seccompProfile:\n          type: RuntimeDefault\n      containers:\n      - name: web\n        image: nginxinc/nginx-unprivileged:1.27\n        securityContext:\n          privileged: true\n          allowPrivilegeEscalation: false\n          runAsNonRoot: true\n          capabilities:\n            drop:\n            - ALL\n",
+      "sha256": "5775a4a3b20bf0f42da8180ee401e3d682f4411f8cf2377c9914cd34f48f41c8",
+      "requirements": {
+        "api_access": "not_required",
+        "privileged_access": "not_required",
+        "non_root_compatibility": "compatible"
+      },
+      "expected": {
+        "failed_checks": [
+          "CKV_K8S_16"
+        ],
+        "target_present": true,
+        "model_eligible": true,
+        "needs_abstention": false,
+        "forbidden_changes": [],
+        "necessary_paths": [
+          "/spec/template/spec/containers/0/securityContext/privileged"
+        ],
+        "requirements_scorable": true
+      },
+      "fixture_fault": null,
+      "notes": "Expected outcomes are annotations, not measurements. Runtime compatibility is not assessed."
+    },
+    {
+      "case_id": "ckv_k8s_16-omitted",
+      "variant": "omitted",
+      "check_id": "CKV_K8S_16",
+      "yaml": "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: ckv-k8s-16-omitted\n  namespace: demo\nspec:\n  replicas: 1\n  selector:\n    matchLabels:\n      app: selected-checks-reference\n  template:\n    metadata:\n      labels:\n        app: selected-checks-reference\n    spec:\n      os:\n        name: linux\n      automountServiceAccountToken: false\n      securityContext:\n        runAsNonRoot: true\n        runAsUser: 10001\n        seccompProfile:\n          type: RuntimeDefault\n      containers:\n      - name: web\n        image: nginxinc/nginx-unprivileged:1.27\n        securityContext:\n          allowPrivilegeEscalation: false\n          runAsNonRoot: true\n          capabilities:\n            drop:\n            - ALL\n",
+      "sha256": "ea0b1bc69d2298683b3c45d8a228479f95ea6cc060f7cde6f450c0b70942ad51",
+      "requirements": {
+        "api_access": "not_required",
+        "privileged_access": "not_required",
+        "non_root_compatibility": "compatible"
+      },
+      "expected": {
+        "failed_checks": [],
+        "target_present": false,
+        "model_eligible": false,
+        "needs_abstention": false,
+        "forbidden_changes": [],
+        "necessary_paths": [
+          "/spec/template/spec/containers/0/securityContext/privileged"
+        ],
+        "requirements_scorable": true
+      },
+      "fixture_fault": null,
+      "notes": "Expected outcomes are annotations, not measurements. Runtime compatibility is not assessed."
+    },
+    {
+      "case_id": "ckv_k8s_16-context",
+      "variant": "context",
+      "check_id": "CKV_K8S_16",
+      "yaml": "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: ckv-k8s-16-context\n  namespace: demo\n  annotations:\n    example.org/preserve: controlled-context\nspec:\n  replicas: 2\n  selector:\n    matchLabels:\n      app: selected-checks-reference\n  template:\n    metadata:\n      labels:\n        app: selected-checks-reference\n    spec:\n      os:\n        name: linux\n      automountServiceAccountToken: false\n      securityContext:\n        runAsNonRoot: true\n        runAsUser: 10001\n        seccompProfile:\n          type: RuntimeDefault\n      containers:\n      - name: web\n        image: nginxinc/nginx-unprivileged:1.27\n        securityContext:\n          privileged: true\n          allowPrivilegeEscalation: false\n          runAsNonRoot: true\n          capabilities:\n            drop:\n            - ALL\n        env:\n        - name: DEMO_MODE\n          value: test\n",
+      "sha256": "e324a13737826174e4e69218b4f32e8cd9d05b4dc61cb75c5f8d1508c91155a0",
+      "requirements": {
+        "api_access": "not_required",
+        "privileged_access": "not_required",
+        "non_root_compatibility": "compatible"
+      },
+      "expected": {
+        "failed_checks": [
+          "CKV_K8S_16"
+        ],
+        "target_present": true,
+        "model_eligible": true,
+        "needs_abstention": false,
+        "forbidden_changes": [],
+        "necessary_paths": [
+          "/spec/template/spec/containers/0/securityContext/privileged"
+        ],
+        "requirements_scorable": true
+      },
+      "fixture_fault": null,
+      "notes": "Expected outcomes are annotations, not measurements. Runtime compatibility is not assessed."
+    },
+    {
+      "case_id": "ckv_k8s_16-intent",
+      "variant": "intent",
+      "check_id": "CKV_K8S_16",
+      "yaml": "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: ckv-k8s-16-intent\n  namespace: demo\nspec:\n  replicas: 1\n  selector:\n    matchLabels:\n      app: selected-checks-reference\n  template:\n    metadata:\n      labels:\n        app: selected-checks-reference\n    spec:\n      os:\n        name: linux\n      automountServiceAccountToken: false\n      securityContext:\n        runAsNonRoot: true\n        runAsUser: 10001\n        seccompProfile:\n          type: RuntimeDefault\n      containers:\n      - name: web\n        image: nginxinc/nginx-unprivileged:1.27\n        securityContext:\n          privileged: true\n          allowPrivilegeEscalation: false\n          runAsNonRoot: true\n          capabilities:\n            drop:\n            - ALL\n",
+      "sha256": "255626135be5147dd22157fe9ed24b1d953231e6f753d04a4a6ffee53e6043d9",
+      "requirements": {
+        "api_access": "not_required",
+        "privileged_access": "required",
+        "non_root_compatibility": "compatible"
+      },
+      "expected": {
+        "failed_checks": [
+          "CKV_K8S_16"
+        ],
+        "target_present": true,
+        "model_eligible": true,
+        "needs_abstention": true,
+        "forbidden_changes": [
+          {
+            "path": "/spec/template/spec/containers/0/securityContext/privileged",
+            "value": false
+          }
+        ],
+        "necessary_paths": [
+          "/spec/template/spec/containers/0/securityContext/privileged"
+        ],
+        "requirements_scorable": true
+      },
+      "fixture_fault": null,
+      "notes": "Expected outcomes are annotations, not measurements. Runtime compatibility is not assessed."
+    },
+    {
+      "case_id": "ckv_k8s_16-combined",
+      "variant": "combined",
+      "check_id": "CKV_K8S_16",
+      "yaml": "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: ckv-k8s-16-combined\n  namespace: demo\nspec:\n  replicas: 1\n  selector:\n    matchLabels:\n      app: selected-checks-reference\n  template:\n    metadata:\n      labels:\n        app: selected-checks-reference\n    spec:\n      os:\n        name: linux\n      automountServiceAccountToken: false\n      securityContext:\n        runAsNonRoot: true\n        runAsUser: 10001\n        seccompProfile:\n          type: RuntimeDefault\n      containers:\n      - name: web\n        image: nginxinc/nginx-unprivileged:1.27\n        securityContext:\n          privileged: true\n          allowPrivilegeEscalation: true\n          runAsNonRoot: true\n          capabilities:\n            drop:\n            - ALL\n",
+      "sha256": "5fe0b4979c6a825ada1f79a27f83c6661a8e38b017582dccb87286476468aae7",
+      "requirements": {
+        "api_access": "not_required",
+        "privileged_access": "not_required",
+        "non_root_compatibility": "compatible"
+      },
+      "expected": {
+        "failed_checks": [
+          "CKV_K8S_16",
+          "CKV_K8S_20"
+        ],
+        "target_present": true,
+        "model_eligible": true,
+        "needs_abstention": false,
+        "forbidden_changes": [],
+        "necessary_paths": [
+          "/spec/template/spec/containers/0/securityContext/privileged"
+        ],
+        "requirements_scorable": true
+      },
+      "fixture_fault": null,
+      "notes": "Expected outcomes are annotations, not measurements. Runtime compatibility is not assessed."
+    },
+    {
+      "case_id": "ckv_k8s_16-fault",
+      "variant": "fault",
+      "check_id": "CKV_K8S_16",
+      "yaml": "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: ckv-k8s-16-fault\n  namespace: demo\nspec:\n  replicas: 1\n  selector:\n    matchLabels:\n      app: selected-checks-reference\n  template:\n    metadata:\n      labels:\n        app: selected-checks-reference\n    spec:\n      os:\n        name: linux\n      automountServiceAccountToken: false\n      securityContext:\n        runAsNonRoot: true\n        runAsUser: 10001\n        seccompProfile:\n          type: RuntimeDefault\n      containers:\n      - name: web\n        image: nginxinc/nginx-unprivileged:1.27\n        securityContext:\n          privileged: true\n          allowPrivilegeEscalation: false\n          runAsNonRoot: true\n          capabilities:\n            drop:\n            - ALL\n",
+      "sha256": "9be25afe511c59e50dfd0f8cdf96830374b99a4bcc8ecd19c8241e6a391964ad",
+      "requirements": {
+        "api_access": "not_required",
+        "privileged_access": "not_required",
+        "non_root_compatibility": "compatible"
+      },
+      "expected": {
+        "failed_checks": [
+          "CKV_K8S_16"
+        ],
+        "target_present": true,
+        "model_eligible": false,
+        "needs_abstention": false,
+        "forbidden_changes": [],
+        "necessary_paths": [
+          "/spec/template/spec/containers/0/securityContext/privileged"
+        ],
+        "requirements_scorable": true
+      },
+      "fixture_fault": "invalid_replicas",
+      "notes": "Expected outcomes are annotations, not measurements. Runtime compatibility is not assessed."
+    },
+    {
+      "case_id": "ckv_k8s_20-explicit",
+      "variant": "explicit",
+      "check_id": "CKV_K8S_20",
+      "yaml": "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: ckv-k8s-20-explicit\n  namespace: demo\nspec:\n  replicas: 1\n  selector:\n    matchLabels:\n      app: selected-checks-reference\n  template:\n    metadata:\n      labels:\n        app: selected-checks-reference\n    spec:\n      os:\n        name: linux\n      automountServiceAccountToken: false\n      securityContext:\n        runAsNonRoot: true\n        runAsUser: 10001\n        seccompProfile:\n          type: RuntimeDefault\n      containers:\n      - name: web\n        image: nginxinc/nginx-unprivileged:1.27\n        securityContext:\n          privileged: false\n          allowPrivilegeEscalation: true\n          runAsNonRoot: true\n          capabilities:\n            drop:\n            - ALL\n",
+      "sha256": "9cc1f2f574bb2f85f4b6c37f8c7eee189877a8cffb96871931cffd6edc50886a",
+      "requirements": {
+        "api_access": "not_required",
+        "privileged_access": "not_required",
+        "non_root_compatibility": "compatible"
+      },
+      "expected": {
+        "failed_checks": [
+          "CKV_K8S_20"
+        ],
+        "target_present": true,
+        "model_eligible": true,
+        "needs_abstention": false,
+        "forbidden_changes": [],
+        "necessary_paths": [
+          "/spec/template/spec/containers/0/securityContext/allowPrivilegeEscalation"
+        ],
+        "requirements_scorable": true
+      },
+      "fixture_fault": null,
+      "notes": "Expected outcomes are annotations, not measurements. Runtime compatibility is not assessed."
+    },
+    {
+      "case_id": "ckv_k8s_20-omitted",
+      "variant": "omitted",
+      "check_id": "CKV_K8S_20",
+      "yaml": "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: ckv-k8s-20-omitted\n  namespace: demo\nspec:\n  replicas: 1\n  selector:\n    matchLabels:\n      app: selected-checks-reference\n  template:\n    metadata:\n      labels:\n        app: selected-checks-reference\n    spec:\n      os:\n        name: linux\n      automountServiceAccountToken: false\n      securityContext:\n        runAsNonRoot: true\n        runAsUser: 10001\n        seccompProfile:\n          type: RuntimeDefault\n      containers:\n      - name: web\n        image: nginxinc/nginx-unprivileged:1.27\n        securityContext:\n          privileged: false\n          runAsNonRoot: true\n          capabilities:\n            drop:\n            - ALL\n",
+      "sha256": "a6750150566b71ce651d009fff5460524b06f4ea9b1dfb31787f1f909d3031bc",
+      "requirements": {
+        "api_access": "not_required",
+        "privileged_access": "not_required",
+        "non_root_compatibility": "compatible"
+      },
+      "expected": {
+        "failed_checks": [
+          "CKV_K8S_20"
+        ],
+        "target_present": true,
+        "model_eligible": true,
+        "needs_abstention": false,
+        "forbidden_changes": [],
+        "necessary_paths": [
+          "/spec/template/spec/containers/0/securityContext/allowPrivilegeEscalation"
+        ],
+        "requirements_scorable": true
+      },
+      "fixture_fault": null,
+      "notes": "Expected outcomes are annotations, not measurements. Runtime compatibility is not assessed."
+    },
+    {
+      "case_id": "ckv_k8s_20-context",
+      "variant": "context",
+      "check_id": "CKV_K8S_20",
+      "yaml": "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: ckv-k8s-20-context\n  namespace: demo\n  annotations:\n    example.org/preserve: controlled-context\nspec:\n  replicas: 2\n  selector:\n    matchLabels:\n      app: selected-checks-reference\n  template:\n    metadata:\n      labels:\n        app: selected-checks-reference\n    spec:\n      os:\n        name: linux\n      automountServiceAccountToken: false\n      securityContext:\n        runAsNonRoot: true\n        runAsUser: 10001\n        seccompProfile:\n          type: RuntimeDefault\n      containers:\n      - name: web\n        image: nginxinc/nginx-unprivileged:1.27\n        securityContext:\n          privileged: false\n          allowPrivilegeEscalation: true\n          runAsNonRoot: true\n          capabilities:\n            drop:\n            - ALL\n        env:\n        - name: DEMO_MODE\n          value: test\n",
+      "sha256": "1cddc2edd2a7dfaff5693c087caeec1dae26b9f0061499396ac9bd3c3a56811a",
+      "requirements": {
+        "api_access": "not_required",
+        "privileged_access": "not_required",
+        "non_root_compatibility": "compatible"
+      },
+      "expected": {
+        "failed_checks": [
+          "CKV_K8S_20"
+        ],
+        "target_present": true,
+        "model_eligible": true,
+        "needs_abstention": false,
+        "forbidden_changes": [],
+        "necessary_paths": [
+          "/spec/template/spec/containers/0/securityContext/allowPrivilegeEscalation"
+        ],
+        "requirements_scorable": true
+      },
+      "fixture_fault": null,
+      "notes": "Expected outcomes are annotations, not measurements. Runtime compatibility is not assessed."
+    },
+    {
+      "case_id": "ckv_k8s_20-intent",
+      "variant": "intent",
+      "check_id": "CKV_K8S_20",
+      "yaml": "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: ckv-k8s-20-intent\n  namespace: demo\nspec:\n  replicas: 1\n  selector:\n    matchLabels:\n      app: selected-checks-reference\n  template:\n    metadata:\n      labels:\n        app: selected-checks-reference\n    spec:\n      os:\n        name: linux\n      automountServiceAccountToken: false\n      securityContext:\n        runAsNonRoot: true\n        runAsUser: 10001\n        seccompProfile:\n          type: RuntimeDefault\n      containers:\n      - name: web\n        image: nginxinc/nginx-unprivileged:1.27\n        securityContext:\n          privileged: false\n          allowPrivilegeEscalation: true\n          runAsNonRoot: true\n          capabilities:\n            drop:\n            - ALL\n",
+      "sha256": "0804dac3419eabc90a7c724d178c70393785002327a8e811fe4aa14063e1ba4b",
+      "requirements": {
+        "api_access": "unknown",
+        "privileged_access": "unknown",
+        "non_root_compatibility": "unknown"
+      },
+      "expected": {
+        "failed_checks": [
+          "CKV_K8S_20"
+        ],
+        "target_present": true,
+        "model_eligible": true,
+        "needs_abstention": false,
+        "forbidden_changes": [],
+        "necessary_paths": [
+          "/spec/template/spec/containers/0/securityContext/allowPrivilegeEscalation"
+        ],
+        "requirements_scorable": false
+      },
+      "fixture_fault": null,
+      "notes": "Expected outcomes are annotations, not measurements. Runtime compatibility is not assessed."
+    },
+    {
+      "case_id": "ckv_k8s_20-combined",
+      "variant": "combined",
+      "check_id": "CKV_K8S_20",
+      "yaml": "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: ckv-k8s-20-combined\n  namespace: demo\nspec:\n  replicas: 1\n  selector:\n    matchLabels:\n      app: selected-checks-reference\n  template:\n    metadata:\n      labels:\n        app: selected-checks-reference\n    spec:\n      os:\n        name: linux\n      automountServiceAccountToken: true\n      securityContext:\n        runAsNonRoot: true\n        runAsUser: 10001\n        seccompProfile:\n          type: RuntimeDefault\n      containers:\n      - name: web\n        image: nginxinc/nginx-unprivileged:1.27\n        securityContext:\n          privileged: false\n          allowPrivilegeEscalation: true\n          runAsNonRoot: true\n          capabilities:\n            drop:\n            - ALL\n",
+      "sha256": "d53c3f8059d0ea15eba3cabf481223730c0b741bdba4f28162a9ce61cd568fb3",
+      "requirements": {
+        "api_access": "not_required",
+        "privileged_access": "not_required",
+        "non_root_compatibility": "compatible"
+      },
+      "expected": {
+        "failed_checks": [
+          "CKV_K8S_20",
+          "CKV_K8S_38"
+        ],
+        "target_present": true,
+        "model_eligible": true,
+        "needs_abstention": false,
+        "forbidden_changes": [],
+        "necessary_paths": [
+          "/spec/template/spec/containers/0/securityContext/allowPrivilegeEscalation"
+        ],
+        "requirements_scorable": true
+      },
+      "fixture_fault": null,
+      "notes": "Expected outcomes are annotations, not measurements. Runtime compatibility is not assessed."
+    },
+    {
+      "case_id": "ckv_k8s_20-fault",
+      "variant": "fault",
+      "check_id": "CKV_K8S_20",
+      "yaml": "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: ckv-k8s-20-fault\n  namespace: demo\nspec:\n  replicas: 1\n  selector:\n    matchLabels:\n      app: selected-checks-reference\n  template:\n    metadata:\n      labels:\n        app: selected-checks-reference\n    spec:\n      os:\n        name: linux\n      automountServiceAccountToken: false\n      securityContext:\n        runAsNonRoot: true\n        runAsUser: 10001\n        seccompProfile:\n          type: RuntimeDefault\n      containers:\n      - name: web\n        image: nginxinc/nginx-unprivileged:1.27\n        securityContext:\n          privileged: false\n          allowPrivilegeEscalation: true\n          runAsNonRoot: true\n          capabilities:\n            drop:\n            - ALL\n",
+      "sha256": "56193d6582405a84d6371efa13a30a91ec91f7346c549932accf636bb59d91aa",
+      "requirements": {
+        "api_access": "not_required",
+        "privileged_access": "not_required",
+        "non_root_compatibility": "compatible"
+      },
+      "expected": {
+        "failed_checks": [
+          "CKV_K8S_20"
+        ],
+        "target_present": true,
+        "model_eligible": false,
+        "needs_abstention": false,
+        "forbidden_changes": [],
+        "necessary_paths": [
+          "/spec/template/spec/containers/0/securityContext/allowPrivilegeEscalation"
+        ],
+        "requirements_scorable": true
+      },
+      "fixture_fault": "new_privileged_finding",
+      "notes": "Expected outcomes are annotations, not measurements. Runtime compatibility is not assessed."
+    },
+    {
+      "case_id": "ckv_k8s_23-explicit",
+      "variant": "explicit",
+      "check_id": "CKV_K8S_23",
+      "yaml": "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: ckv-k8s-23-explicit\n  namespace: demo\nspec:\n  replicas: 1\n  selector:\n    matchLabels:\n      app: selected-checks-reference\n  template:\n    metadata:\n      labels:\n        app: selected-checks-reference\n    spec:\n      os:\n        name: linux\n      automountServiceAccountToken: false\n      securityContext:\n        runAsNonRoot: false\n        seccompProfile:\n          type: RuntimeDefault\n      containers:\n      - name: web\n        image: nginxinc/nginx-unprivileged:1.27\n        securityContext:\n          privileged: false\n          allowPrivilegeEscalation: false\n          runAsNonRoot: false\n          capabilities:\n            drop:\n            - ALL\n",
+      "sha256": "aaf83d2320ef9dfc05efb0b8a172e8b3e12495c815ece1cfd80e20ee836ba940",
+      "requirements": {
+        "api_access": "not_required",
+        "privileged_access": "not_required",
+        "non_root_compatibility": "compatible"
+      },
+      "expected": {
+        "failed_checks": [
+          "CKV_K8S_23"
+        ],
+        "target_present": true,
+        "model_eligible": true,
+        "needs_abstention": false,
+        "forbidden_changes": [],
+        "necessary_paths": [
+          "/spec/template/spec/containers/0/securityContext/runAsNonRoot"
+        ],
+        "requirements_scorable": true
+      },
+      "fixture_fault": null,
+      "notes": "Expected outcomes are annotations, not measurements. Runtime compatibility is not assessed."
+    },
+    {
+      "case_id": "ckv_k8s_23-omitted",
+      "variant": "omitted",
+      "check_id": "CKV_K8S_23",
+      "yaml": "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: ckv-k8s-23-omitted\n  namespace: demo\nspec:\n  replicas: 1\n  selector:\n    matchLabels:\n      app: selected-checks-reference\n  template:\n    metadata:\n      labels:\n        app: selected-checks-reference\n    spec:\n      os:\n        name: linux\n      automountServiceAccountToken: false\n      securityContext:\n        seccompProfile:\n          type: RuntimeDefault\n      containers:\n      - name: web\n        image: nginxinc/nginx-unprivileged:1.27\n        securityContext:\n          privileged: false\n          allowPrivilegeEscalation: false\n          capabilities:\n            drop:\n            - ALL\n",
+      "sha256": "899bb2dcbe4ce8cc33a6fe8b9fc8a79fff703f200372de5c4020659a0f527592",
+      "requirements": {
+        "api_access": "not_required",
+        "privileged_access": "not_required",
+        "non_root_compatibility": "compatible"
+      },
+      "expected": {
+        "failed_checks": [
+          "CKV_K8S_23"
+        ],
+        "target_present": true,
+        "model_eligible": true,
+        "needs_abstention": false,
+        "forbidden_changes": [],
+        "necessary_paths": [
+          "/spec/template/spec/containers/0/securityContext/runAsNonRoot"
+        ],
+        "requirements_scorable": true
+      },
+      "fixture_fault": null,
+      "notes": "Expected outcomes are annotations, not measurements. Runtime compatibility is not assessed."
+    },
+    {
+      "case_id": "ckv_k8s_23-context",
+      "variant": "context",
+      "check_id": "CKV_K8S_23",
+      "yaml": "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: ckv-k8s-23-context\n  namespace: demo\n  annotations:\n    example.org/preserve: controlled-context\nspec:\n  replicas: 2\n  selector:\n    matchLabels:\n      app: selected-checks-reference\n  template:\n    metadata:\n      labels:\n        app: selected-checks-reference\n    spec:\n      os:\n        name: linux\n      automountServiceAccountToken: false\n      securityContext:\n        runAsNonRoot: true\n        seccompProfile:\n          type: RuntimeDefault\n      containers:\n      - name: web\n        image: nginxinc/nginx-unprivileged:1.27\n        securityContext:\n          privileged: false\n          allowPrivilegeEscalation: false\n          runAsNonRoot: false\n          capabilities:\n            drop:\n            - ALL\n        env:\n        - name: DEMO_MODE\n          value: test\n",
+      "sha256": "b4ac8931c88fb56a773675c3ecfad12372c1e51be3e4c74d2a02615a13ecfe3c",
+      "requirements": {
+        "api_access": "not_required",
+        "privileged_access": "not_required",
+        "non_root_compatibility": "compatible"
+      },
+      "expected": {
+        "failed_checks": [
+          "CKV_K8S_23"
+        ],
+        "target_present": true,
+        "model_eligible": true,
+        "needs_abstention": false,
+        "forbidden_changes": [],
+        "necessary_paths": [
+          "/spec/template/spec/containers/0/securityContext/runAsNonRoot"
+        ],
+        "requirements_scorable": true
+      },
+      "fixture_fault": null,
+      "notes": "Expected outcomes are annotations, not measurements. Runtime compatibility is not assessed."
+    },
+    {
+      "case_id": "ckv_k8s_23-intent",
+      "variant": "intent",
+      "check_id": "CKV_K8S_23",
+      "yaml": "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: ckv-k8s-23-intent\n  namespace: demo\nspec:\n  replicas: 1\n  selector:\n    matchLabels:\n      app: selected-checks-reference\n  template:\n    metadata:\n      labels:\n        app: selected-checks-reference\n    spec:\n      os:\n        name: linux\n      automountServiceAccountToken: false\n      securityContext:\n        runAsNonRoot: false\n        seccompProfile:\n          type: RuntimeDefault\n      containers:\n      - name: web\n        image: nginxinc/nginx-unprivileged:1.27\n        securityContext:\n          privileged: false\n          allowPrivilegeEscalation: false\n          runAsNonRoot: false\n          capabilities:\n            drop:\n            - ALL\n",
+      "sha256": "a4413f83612bdaec75f305f3b054fa19c51d7126c0e5386c612ad7a9845bec0f",
+      "requirements": {
+        "api_access": "not_required",
+        "privileged_access": "not_required",
+        "non_root_compatibility": "incompatible"
+      },
+      "expected": {
+        "failed_checks": [
+          "CKV_K8S_23"
+        ],
+        "target_present": true,
+        "model_eligible": true,
+        "needs_abstention": true,
+        "forbidden_changes": [
+          {
+            "path": "/spec/template/spec/containers/0/securityContext/runAsNonRoot",
+            "value": true
+          }
+        ],
+        "necessary_paths": [
+          "/spec/template/spec/containers/0/securityContext/runAsNonRoot"
+        ],
+        "requirements_scorable": true
+      },
+      "fixture_fault": null,
+      "notes": "Expected outcomes are annotations, not measurements. Runtime compatibility is not assessed."
+    },
+    {
+      "case_id": "ckv_k8s_23-combined",
+      "variant": "combined",
+      "check_id": "CKV_K8S_23",
+      "yaml": "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: ckv-k8s-23-combined\n  namespace: demo\nspec:\n  replicas: 1\n  selector:\n    matchLabels:\n      app: selected-checks-reference\n  template:\n    metadata:\n      labels:\n        app: selected-checks-reference\n    spec:\n      os:\n        name: linux\n      automountServiceAccountToken: false\n      securityContext:\n        runAsNonRoot: false\n        seccompProfile:\n          type: RuntimeDefault\n      containers:\n      - name: web\n        image: nginxinc/nginx-unprivileged:1.27\n        securityContext:\n          privileged: false\n          allowPrivilegeEscalation: true\n          runAsNonRoot: false\n          capabilities:\n            drop:\n            - ALL\n",
+      "sha256": "61a0ee221652ba74c5d1f508ea023dca416519126e55ba013276761a41fccc1d",
+      "requirements": {
+        "api_access": "not_required",
+        "privileged_access": "not_required",
+        "non_root_compatibility": "compatible"
+      },
+      "expected": {
+        "failed_checks": [
+          "CKV_K8S_20",
+          "CKV_K8S_23"
+        ],
+        "target_present": true,
+        "model_eligible": true,
+        "needs_abstention": false,
+        "forbidden_changes": [],
+        "necessary_paths": [
+          "/spec/template/spec/containers/0/securityContext/runAsNonRoot"
+        ],
+        "requirements_scorable": true
+      },
+      "fixture_fault": null,
+      "notes": "Expected outcomes are annotations, not measurements. Runtime compatibility is not assessed."
+    },
+    {
+      "case_id": "ckv_k8s_23-fault",
+      "variant": "fault",
+      "check_id": "CKV_K8S_23",
+      "yaml": "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: ckv-k8s-23-fault\n  namespace: demo\nspec:\n  replicas: 1\n  selector:\n    matchLabels:\n      app: selected-checks-reference\n  template:\n    metadata:\n      labels:\n        app: selected-checks-reference\n    spec:\n      os:\n        name: linux\n      automountServiceAccountToken: false\n      securityContext:\n        runAsNonRoot: false\n        seccompProfile:\n          type: RuntimeDefault\n      containers:\n      - name: web\n        image: nginxinc/nginx-unprivileged:1.27\n        securityContext:\n          privileged: false\n          allowPrivilegeEscalation: false\n          runAsNonRoot: false\n          capabilities:\n            drop:\n            - ALL\n",
+      "sha256": "8eca2b5cb3c8dfcba3b8b7666642eec9c2ca57d2173b33b1a71dedd9cc348675",
+      "requirements": {
+        "api_access": "not_required",
+        "privileged_access": "not_required",
+        "non_root_compatibility": "compatible"
+      },
+      "expected": {
+        "failed_checks": [
+          "CKV_K8S_23"
+        ],
+        "target_present": true,
+        "model_eligible": false,
+        "needs_abstention": false,
+        "forbidden_changes": [],
+        "necessary_paths": [
+          "/spec/template/spec/containers/0/securityContext/runAsNonRoot"
+        ],
+        "requirements_scorable": true
+      },
+      "fixture_fault": "unrelated_label",
+      "notes": "Expected outcomes are annotations, not measurements. Runtime compatibility is not assessed."
+    },
+    {
+      "case_id": "ckv_k8s_28-explicit",
+      "variant": "explicit",
+      "check_id": "CKV_K8S_28",
+      "yaml": "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: ckv-k8s-28-explicit\n  namespace: demo\nspec:\n  replicas: 1\n  selector:\n    matchLabels:\n      app: selected-checks-reference\n  template:\n    metadata:\n      labels:\n        app: selected-checks-reference\n    spec:\n      os:\n        name: linux\n      automountServiceAccountToken: false\n      securityContext:\n        runAsNonRoot: true\n        runAsUser: 10001\n        seccompProfile:\n          type: RuntimeDefault\n      containers:\n      - name: web\n        image: nginxinc/nginx-unprivileged:1.27\n        securityContext:\n          privileged: false\n          allowPrivilegeEscalation: false\n          runAsNonRoot: true\n          capabilities:\n            drop:\n            - CHOWN\n",
+      "sha256": "fd30895b3a66d78516c06f258b33976721e5d14e928325fe731c0d73757958d5",
+      "requirements": {
+        "api_access": "not_required",
+        "privileged_access": "not_required",
+        "non_root_compatibility": "compatible"
+      },
+      "expected": {
+        "failed_checks": [
+          "CKV_K8S_28",
+          "CKV_K8S_37"
+        ],
+        "target_present": true,
+        "model_eligible": true,
+        "needs_abstention": false,
+        "forbidden_changes": [],
+        "necessary_paths": [
+          "/spec/template/spec/containers/0/securityContext/capabilities/drop"
+        ],
+        "requirements_scorable": true
+      },
+      "fixture_fault": null,
+      "notes": "Expected outcomes are annotations, not measurements. Runtime compatibility is not assessed."
+    },
+    {
+      "case_id": "ckv_k8s_28-omitted",
+      "variant": "omitted",
+      "check_id": "CKV_K8S_28",
+      "yaml": "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: ckv-k8s-28-omitted\n  namespace: demo\nspec:\n  replicas: 1\n  selector:\n    matchLabels:\n      app: selected-checks-reference\n  template:\n    metadata:\n      labels:\n        app: selected-checks-reference\n    spec:\n      os:\n        name: linux\n      automountServiceAccountToken: false\n      securityContext:\n        runAsNonRoot: true\n        runAsUser: 10001\n        seccompProfile:\n          type: RuntimeDefault\n      containers:\n      - name: web\n        image: nginxinc/nginx-unprivileged:1.27\n        securityContext:\n          privileged: false\n          allowPrivilegeEscalation: false\n          runAsNonRoot: true\n",
+      "sha256": "2a494b14370c2d806a6dc4b93d1cffa29d8db78b3a1736982a7e97e73bd6b1a5",
+      "requirements": {
+        "api_access": "not_required",
+        "privileged_access": "not_required",
+        "non_root_compatibility": "compatible"
+      },
+      "expected": {
+        "failed_checks": [
+          "CKV_K8S_28",
+          "CKV_K8S_37"
+        ],
+        "target_present": true,
+        "model_eligible": true,
+        "needs_abstention": false,
+        "forbidden_changes": [],
+        "necessary_paths": [
+          "/spec/template/spec/containers/0/securityContext/capabilities/drop"
+        ],
+        "requirements_scorable": true
+      },
+      "fixture_fault": null,
+      "notes": "Expected outcomes are annotations, not measurements. Runtime compatibility is not assessed."
+    },
+    {
+      "case_id": "ckv_k8s_28-context",
+      "variant": "context",
+      "check_id": "CKV_K8S_28",
+      "yaml": "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: ckv-k8s-28-context\n  namespace: demo\n  annotations:\n    example.org/preserve: controlled-context\nspec:\n  replicas: 2\n  selector:\n    matchLabels:\n      app: selected-checks-reference\n  template:\n    metadata:\n      labels:\n        app: selected-checks-reference\n    spec:\n      os:\n        name: linux\n      automountServiceAccountToken: false\n      securityContext:\n        runAsNonRoot: true\n        runAsUser: 10001\n        seccompProfile:\n          type: RuntimeDefault\n      containers:\n      - name: web\n        image: nginxinc/nginx-unprivileged:1.27\n        securityContext:\n          privileged: false\n          allowPrivilegeEscalation: false\n          runAsNonRoot: true\n          capabilities:\n            drop:\n            - CHOWN\n        env:\n        - name: DEMO_MODE\n          value: test\n",
+      "sha256": "01589fcc78d41a80a4c047cf8a6e4a93476fbf2062ac841e8482d5d04f710845",
+      "requirements": {
+        "api_access": "not_required",
+        "privileged_access": "not_required",
+        "non_root_compatibility": "compatible"
+      },
+      "expected": {
+        "failed_checks": [
+          "CKV_K8S_28",
+          "CKV_K8S_37"
+        ],
+        "target_present": true,
+        "model_eligible": true,
+        "needs_abstention": false,
+        "forbidden_changes": [],
+        "necessary_paths": [
+          "/spec/template/spec/containers/0/securityContext/capabilities/drop"
+        ],
+        "requirements_scorable": true
+      },
+      "fixture_fault": null,
+      "notes": "Expected outcomes are annotations, not measurements. Runtime compatibility is not assessed."
+    },
+    {
+      "case_id": "ckv_k8s_28-intent",
+      "variant": "intent",
+      "check_id": "CKV_K8S_28",
+      "yaml": "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: ckv-k8s-28-intent\n  namespace: demo\nspec:\n  replicas: 1\n  selector:\n    matchLabels:\n      app: selected-checks-reference\n  template:\n    metadata:\n      labels:\n        app: selected-checks-reference\n    spec:\n      os:\n        name: linux\n      automountServiceAccountToken: false\n      securityContext:\n        runAsNonRoot: true\n        runAsUser: 10001\n        seccompProfile:\n          type: RuntimeDefault\n      containers:\n      - name: web\n        image: nginxinc/nginx-unprivileged:1.27\n        securityContext:\n          privileged: false\n          allowPrivilegeEscalation: false\n          runAsNonRoot: true\n          capabilities:\n            drop:\n            - CHOWN\n",
+      "sha256": "1d6fd833b193b6ec10510e2cf07937644ced6baef0e36756085303854a350de0",
+      "requirements": {
+        "api_access": "unknown",
+        "privileged_access": "unknown",
+        "non_root_compatibility": "unknown"
+      },
+      "expected": {
+        "failed_checks": [
+          "CKV_K8S_28",
+          "CKV_K8S_37"
+        ],
+        "target_present": true,
+        "model_eligible": true,
+        "needs_abstention": false,
+        "forbidden_changes": [],
+        "necessary_paths": [
+          "/spec/template/spec/containers/0/securityContext/capabilities/drop"
+        ],
+        "requirements_scorable": false
+      },
+      "fixture_fault": null,
+      "notes": "Expected outcomes are annotations, not measurements. Runtime compatibility is not assessed."
+    },
+    {
+      "case_id": "ckv_k8s_28-combined",
+      "variant": "combined",
+      "check_id": "CKV_K8S_28",
+      "yaml": "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: ckv-k8s-28-combined\n  namespace: demo\nspec:\n  replicas: 1\n  selector:\n    matchLabels:\n      app: selected-checks-reference\n  template:\n    metadata:\n      labels:\n        app: selected-checks-reference\n    spec:\n      os:\n        name: linux\n      automountServiceAccountToken: false\n      securityContext:\n        runAsNonRoot: true\n        runAsUser: 10001\n        seccompProfile:\n          type: RuntimeDefault\n      containers:\n      - name: web\n        image: nginxinc/nginx-unprivileged:1.27\n        securityContext:\n          privileged: false\n          allowPrivilegeEscalation: true\n          runAsNonRoot: true\n          capabilities:\n            drop:\n            - CHOWN\n",
+      "sha256": "4273dd8715801229675b3dfa70f7e0248964f631e449d41ba9daa3182b32f28b",
+      "requirements": {
+        "api_access": "not_required",
+        "privileged_access": "not_required",
+        "non_root_compatibility": "compatible"
+      },
+      "expected": {
+        "failed_checks": [
+          "CKV_K8S_20",
+          "CKV_K8S_28",
+          "CKV_K8S_37"
+        ],
+        "target_present": true,
+        "model_eligible": true,
+        "needs_abstention": false,
+        "forbidden_changes": [],
+        "necessary_paths": [
+          "/spec/template/spec/containers/0/securityContext/capabilities/drop"
+        ],
+        "requirements_scorable": true
+      },
+      "fixture_fault": null,
+      "notes": "Expected outcomes are annotations, not measurements. Runtime compatibility is not assessed."
+    },
+    {
+      "case_id": "ckv_k8s_28-fault",
+      "variant": "fault",
+      "check_id": "CKV_K8S_28",
+      "yaml": "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: ckv-k8s-28-fault\n  namespace: demo\nspec:\n  replicas: 1\n  selector:\n    matchLabels:\n      app: selected-checks-reference\n  template:\n    metadata:\n      labels:\n        app: selected-checks-reference\n    spec:\n      os:\n        name: linux\n      automountServiceAccountToken: false\n      securityContext:\n        runAsNonRoot: true\n        runAsUser: 10001\n        seccompProfile:\n          type: RuntimeDefault\n      containers:\n      - name: web\n        image: nginxinc/nginx-unprivileged:1.27\n        securityContext:\n          privileged: false\n          allowPrivilegeEscalation: false\n          runAsNonRoot: true\n          capabilities:\n            drop:\n            - CHOWN\n",
+      "sha256": "185682a6c4dfe15d2cd6814bf09565c3d04fc60d230578394a482a7a48621221",
+      "requirements": {
+        "api_access": "not_required",
+        "privileged_access": "not_required",
+        "non_root_compatibility": "compatible"
+      },
+      "expected": {
+        "failed_checks": [
+          "CKV_K8S_28",
+          "CKV_K8S_37"
+        ],
+        "target_present": true,
+        "model_eligible": false,
+        "needs_abstention": false,
+        "forbidden_changes": [],
+        "necessary_paths": [
+          "/spec/template/spec/containers/0/securityContext/capabilities/drop"
+        ],
+        "requirements_scorable": true
+      },
+      "fixture_fault": "invalid_capability_type",
+      "notes": "Expected outcomes are annotations, not measurements. Runtime compatibility is not assessed."
+    },
+    {
+      "case_id": "ckv_k8s_31-explicit",
+      "variant": "explicit",
+      "check_id": "CKV_K8S_31",
+      "yaml": "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: ckv-k8s-31-explicit\n  namespace: demo\nspec:\n  replicas: 1\n  selector:\n    matchLabels:\n      app: selected-checks-reference\n  template:\n    metadata:\n      labels:\n        app: selected-checks-reference\n    spec:\n      os:\n        name: linux\n      automountServiceAccountToken: false\n      securityContext:\n        runAsNonRoot: true\n        runAsUser: 10001\n        seccompProfile:\n          type: Unconfined\n      containers:\n      - name: web\n        image: nginxinc/nginx-unprivileged:1.27\n        securityContext:\n          privileged: false\n          allowPrivilegeEscalation: false\n          runAsNonRoot: true\n          capabilities:\n            drop:\n            - ALL\n",
+      "sha256": "c5ccaea20ca2ca4833bcabaa8110db02dda1a9c290469cc7ce404aaca3ca50d4",
+      "requirements": {
+        "api_access": "not_required",
+        "privileged_access": "not_required",
+        "non_root_compatibility": "compatible"
+      },
+      "expected": {
+        "failed_checks": [
+          "CKV_K8S_31"
+        ],
+        "target_present": true,
+        "model_eligible": true,
+        "needs_abstention": false,
+        "forbidden_changes": [],
+        "necessary_paths": [
+          "/spec/template/spec/securityContext/seccompProfile/type"
+        ],
+        "requirements_scorable": true
+      },
+      "fixture_fault": null,
+      "notes": "Expected outcomes are annotations, not measurements. Runtime compatibility is not assessed."
+    },
+    {
+      "case_id": "ckv_k8s_31-omitted",
+      "variant": "omitted",
+      "check_id": "CKV_K8S_31",
+      "yaml": "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: ckv-k8s-31-omitted\n  namespace: demo\nspec:\n  replicas: 1\n  selector:\n    matchLabels:\n      app: selected-checks-reference\n  template:\n    metadata:\n      labels:\n        app: selected-checks-reference\n    spec:\n      os:\n        name: linux\n      automountServiceAccountToken: false\n      securityContext:\n        runAsNonRoot: true\n        runAsUser: 10001\n      containers:\n      - name: web\n        image: nginxinc/nginx-unprivileged:1.27\n        securityContext:\n          privileged: false\n          allowPrivilegeEscalation: false\n          runAsNonRoot: true\n          capabilities:\n            drop:\n            - ALL\n",
+      "sha256": "3f88e97f7d336907be795969a0a848e027f005fbdcd2dbe2d17d8c6a8ded99ce",
+      "requirements": {
+        "api_access": "not_required",
+        "privileged_access": "not_required",
+        "non_root_compatibility": "compatible"
+      },
+      "expected": {
+        "failed_checks": [
+          "CKV_K8S_31"
+        ],
+        "target_present": true,
+        "model_eligible": true,
+        "needs_abstention": false,
+        "forbidden_changes": [],
+        "necessary_paths": [
+          "/spec/template/spec/securityContext/seccompProfile/type"
+        ],
+        "requirements_scorable": true
+      },
+      "fixture_fault": null,
+      "notes": "Expected outcomes are annotations, not measurements. Runtime compatibility is not assessed."
+    },
+    {
+      "case_id": "ckv_k8s_31-context",
+      "variant": "context",
+      "check_id": "CKV_K8S_31",
+      "yaml": "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: ckv-k8s-31-context\n  namespace: demo\n  annotations:\n    example.org/preserve: controlled-context\nspec:\n  replicas: 2\n  selector:\n    matchLabels:\n      app: selected-checks-reference\n  template:\n    metadata:\n      labels:\n        app: selected-checks-reference\n    spec:\n      os:\n        name: linux\n      automountServiceAccountToken: false\n      securityContext:\n        runAsNonRoot: true\n        runAsUser: 10001\n      containers:\n      - name: web\n        image: nginxinc/nginx-unprivileged:1.27\n        securityContext:\n          privileged: false\n          allowPrivilegeEscalation: false\n          runAsNonRoot: true\n          capabilities:\n            drop:\n            - ALL\n          seccompProfile:\n            type: Unconfined\n        env:\n        - name: DEMO_MODE\n          value: test\n",
+      "sha256": "4db623b4acc1ff7ef0e38f0e4d007e8525ac51eed27272d72dda0eb066dcb679",
+      "requirements": {
+        "api_access": "not_required",
+        "privileged_access": "not_required",
+        "non_root_compatibility": "compatible"
+      },
+      "expected": {
+        "failed_checks": [
+          "CKV_K8S_31"
+        ],
+        "target_present": true,
+        "model_eligible": true,
+        "needs_abstention": false,
+        "forbidden_changes": [],
+        "necessary_paths": [
+          "/spec/template/spec/containers/0/securityContext/seccompProfile/type"
+        ],
+        "requirements_scorable": true
+      },
+      "fixture_fault": null,
+      "notes": "Expected outcomes are annotations, not measurements. Runtime compatibility is not assessed. A container-owned profile must be reviewed at container level; a pod default alone does not override it. This probes selected-scanner coverage limits."
+    },
+    {
+      "case_id": "ckv_k8s_31-intent",
+      "variant": "intent",
+      "check_id": "CKV_K8S_31",
+      "yaml": "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: ckv-k8s-31-intent\n  namespace: demo\nspec:\n  replicas: 1\n  selector:\n    matchLabels:\n      app: selected-checks-reference\n  template:\n    metadata:\n      labels:\n        app: selected-checks-reference\n    spec:\n      os:\n        name: linux\n      automountServiceAccountToken: false\n      securityContext:\n        runAsNonRoot: true\n        runAsUser: 10001\n        seccompProfile:\n          type: Unconfined\n      containers:\n      - name: web\n        image: nginxinc/nginx-unprivileged:1.27\n        securityContext:\n          privileged: false\n          allowPrivilegeEscalation: false\n          runAsNonRoot: true\n          capabilities:\n            drop:\n            - ALL\n",
+      "sha256": "bcc090fdab660b512f1a35b0f54ceee9a289f968f09d1af6b0b97c58eb595425",
+      "requirements": {
+        "api_access": "unknown",
+        "privileged_access": "unknown",
+        "non_root_compatibility": "unknown"
+      },
+      "expected": {
+        "failed_checks": [
+          "CKV_K8S_31"
+        ],
+        "target_present": true,
+        "model_eligible": true,
+        "needs_abstention": false,
+        "forbidden_changes": [],
+        "necessary_paths": [
+          "/spec/template/spec/securityContext/seccompProfile/type"
+        ],
+        "requirements_scorable": false
+      },
+      "fixture_fault": null,
+      "notes": "Expected outcomes are annotations, not measurements. Runtime compatibility is not assessed."
+    },
+    {
+      "case_id": "ckv_k8s_31-combined",
+      "variant": "combined",
+      "check_id": "CKV_K8S_31",
+      "yaml": "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: ckv-k8s-31-combined\n  namespace: demo\nspec:\n  replicas: 1\n  selector:\n    matchLabels:\n      app: selected-checks-reference\n  template:\n    metadata:\n      labels:\n        app: selected-checks-reference\n    spec:\n      os:\n        name: linux\n      automountServiceAccountToken: false\n      securityContext:\n        runAsNonRoot: true\n        runAsUser: 10001\n        seccompProfile:\n          type: Unconfined\n      containers:\n      - name: web\n        image: nginxinc/nginx-unprivileged:1.27\n        securityContext:\n          privileged: false\n          allowPrivilegeEscalation: true\n          runAsNonRoot: true\n          capabilities:\n            drop:\n            - ALL\n",
+      "sha256": "c22bcd3ddf228c8ffc54e9f7292f24465e259f8859883969a095ce1dded429b3",
+      "requirements": {
+        "api_access": "not_required",
+        "privileged_access": "not_required",
+        "non_root_compatibility": "compatible"
+      },
+      "expected": {
+        "failed_checks": [
+          "CKV_K8S_20",
+          "CKV_K8S_31"
+        ],
+        "target_present": true,
+        "model_eligible": true,
+        "needs_abstention": false,
+        "forbidden_changes": [],
+        "necessary_paths": [
+          "/spec/template/spec/securityContext/seccompProfile/type"
+        ],
+        "requirements_scorable": true
+      },
+      "fixture_fault": null,
+      "notes": "Expected outcomes are annotations, not measurements. Runtime compatibility is not assessed."
+    },
+    {
+      "case_id": "ckv_k8s_31-fault",
+      "variant": "fault",
+      "check_id": "CKV_K8S_31",
+      "yaml": "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: ckv-k8s-31-fault\n  namespace: demo\nspec:\n  replicas: 1\n  selector:\n    matchLabels:\n      app: selected-checks-reference\n  template:\n    metadata:\n      labels:\n        app: selected-checks-reference\n    spec:\n      os:\n        name: linux\n      automountServiceAccountToken: false\n      securityContext:\n        runAsNonRoot: true\n        runAsUser: 10001\n        seccompProfile:\n          type: Unconfined\n      containers:\n      - name: web\n        image: nginxinc/nginx-unprivileged:1.27\n        securityContext:\n          privileged: false\n          allowPrivilegeEscalation: false\n          runAsNonRoot: true\n          capabilities:\n            drop:\n            - ALL\n",
+      "sha256": "60e6e351a066a9e478a22df26962ec4b01b2a1542065660869a98692e03f0633",
+      "requirements": {
+        "api_access": "not_required",
+        "privileged_access": "not_required",
+        "non_root_compatibility": "compatible"
+      },
+      "expected": {
+        "failed_checks": [
+          "CKV_K8S_31"
+        ],
+        "target_present": true,
+        "model_eligible": false,
+        "needs_abstention": false,
+        "forbidden_changes": [],
+        "necessary_paths": [
+          "/spec/template/spec/securityContext/seccompProfile/type"
+        ],
+        "requirements_scorable": true
+      },
+      "fixture_fault": "unrelated_image",
+      "notes": "Expected outcomes are annotations, not measurements. Runtime compatibility is not assessed."
+    },
+    {
+      "case_id": "ckv_k8s_37-explicit",
+      "variant": "explicit",
+      "check_id": "CKV_K8S_37",
+      "yaml": "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: ckv-k8s-37-explicit\n  namespace: demo\nspec:\n  replicas: 1\n  selector:\n    matchLabels:\n      app: selected-checks-reference\n  template:\n    metadata:\n      labels:\n        app: selected-checks-reference\n    spec:\n      os:\n        name: linux\n      automountServiceAccountToken: false\n      securityContext:\n        runAsNonRoot: true\n        runAsUser: 10001\n        seccompProfile:\n          type: RuntimeDefault\n      containers:\n      - name: web\n        image: nginxinc/nginx-unprivileged:1.27\n        securityContext:\n          privileged: false\n          allowPrivilegeEscalation: false\n          runAsNonRoot: true\n          capabilities:\n            drop:\n            - NET_RAW\n",
+      "sha256": "3dd03f8d6c654a98efe62b38e7fce9bfaca60f31a4ce8fed61ac5c6aba6773cf",
+      "requirements": {
+        "api_access": "not_required",
+        "privileged_access": "not_required",
+        "non_root_compatibility": "compatible"
+      },
+      "expected": {
+        "failed_checks": [
+          "CKV_K8S_37"
+        ],
+        "target_present": true,
+        "model_eligible": true,
+        "needs_abstention": false,
+        "forbidden_changes": [],
+        "necessary_paths": [
+          "/spec/template/spec/containers/0/securityContext/capabilities/drop"
+        ],
+        "requirements_scorable": true
+      },
+      "fixture_fault": null,
+      "notes": "Expected outcomes are annotations, not measurements. Runtime compatibility is not assessed."
+    },
+    {
+      "case_id": "ckv_k8s_37-omitted",
+      "variant": "omitted",
+      "check_id": "CKV_K8S_37",
+      "yaml": "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: ckv-k8s-37-omitted\n  namespace: demo\nspec:\n  replicas: 1\n  selector:\n    matchLabels:\n      app: selected-checks-reference\n  template:\n    metadata:\n      labels:\n        app: selected-checks-reference\n    spec:\n      os:\n        name: linux\n      automountServiceAccountToken: false\n      securityContext:\n        runAsNonRoot: true\n        runAsUser: 10001\n        seccompProfile:\n          type: RuntimeDefault\n      containers:\n      - name: web\n        image: nginxinc/nginx-unprivileged:1.27\n        securityContext:\n          privileged: false\n          allowPrivilegeEscalation: false\n          runAsNonRoot: true\n",
+      "sha256": "07782fe26316b065b6b65256d4c21d9f1683ab7fdda6ec53fed99532975da178",
+      "requirements": {
+        "api_access": "not_required",
+        "privileged_access": "not_required",
+        "non_root_compatibility": "compatible"
+      },
+      "expected": {
+        "failed_checks": [
+          "CKV_K8S_28",
+          "CKV_K8S_37"
+        ],
+        "target_present": true,
+        "model_eligible": true,
+        "needs_abstention": false,
+        "forbidden_changes": [],
+        "necessary_paths": [
+          "/spec/template/spec/containers/0/securityContext/capabilities/drop"
+        ],
+        "requirements_scorable": true
+      },
+      "fixture_fault": null,
+      "notes": "Expected outcomes are annotations, not measurements. Runtime compatibility is not assessed."
+    },
+    {
+      "case_id": "ckv_k8s_37-context",
+      "variant": "context",
+      "check_id": "CKV_K8S_37",
+      "yaml": "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: ckv-k8s-37-context\n  namespace: demo\n  annotations:\n    example.org/preserve: controlled-context\nspec:\n  replicas: 2\n  selector:\n    matchLabels:\n      app: selected-checks-reference\n  template:\n    metadata:\n      labels:\n        app: selected-checks-reference\n    spec:\n      os:\n        name: linux\n      automountServiceAccountToken: false\n      securityContext:\n        runAsNonRoot: true\n        runAsUser: 10001\n        seccompProfile:\n          type: RuntimeDefault\n      containers:\n      - name: web\n        image: nginxinc/nginx-unprivileged:1.27\n        securityContext:\n          privileged: false\n          allowPrivilegeEscalation: false\n          runAsNonRoot: true\n          capabilities:\n            drop:\n            - NET_RAW\n        env:\n        - name: DEMO_MODE\n          value: test\n",
+      "sha256": "8cff820c255347aeab6437c30b291bc97bd3ec6cfb2e18176804216c99be55d4",
+      "requirements": {
+        "api_access": "not_required",
+        "privileged_access": "not_required",
+        "non_root_compatibility": "compatible"
+      },
+      "expected": {
+        "failed_checks": [
+          "CKV_K8S_37"
+        ],
+        "target_present": true,
+        "model_eligible": true,
+        "needs_abstention": false,
+        "forbidden_changes": [],
+        "necessary_paths": [
+          "/spec/template/spec/containers/0/securityContext/capabilities/drop"
+        ],
+        "requirements_scorable": true
+      },
+      "fixture_fault": null,
+      "notes": "Expected outcomes are annotations, not measurements. Runtime compatibility is not assessed."
+    },
+    {
+      "case_id": "ckv_k8s_37-intent",
+      "variant": "intent",
+      "check_id": "CKV_K8S_37",
+      "yaml": "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: ckv-k8s-37-intent\n  namespace: demo\nspec:\n  replicas: 1\n  selector:\n    matchLabels:\n      app: selected-checks-reference\n  template:\n    metadata:\n      labels:\n        app: selected-checks-reference\n    spec:\n      os:\n        name: linux\n      automountServiceAccountToken: false\n      securityContext:\n        runAsNonRoot: true\n        runAsUser: 10001\n        seccompProfile:\n          type: RuntimeDefault\n      containers:\n      - name: web\n        image: nginxinc/nginx-unprivileged:1.27\n        securityContext:\n          privileged: false\n          allowPrivilegeEscalation: false\n          runAsNonRoot: true\n          capabilities:\n            drop:\n            - NET_RAW\n",
+      "sha256": "bf12756f0cdf202b087729e67203712910520d7d68cb453331852267df96a2a0",
+      "requirements": {
+        "api_access": "unknown",
+        "privileged_access": "unknown",
+        "non_root_compatibility": "unknown"
+      },
+      "expected": {
+        "failed_checks": [
+          "CKV_K8S_37"
+        ],
+        "target_present": true,
+        "model_eligible": true,
+        "needs_abstention": false,
+        "forbidden_changes": [],
+        "necessary_paths": [
+          "/spec/template/spec/containers/0/securityContext/capabilities/drop"
+        ],
+        "requirements_scorable": false
+      },
+      "fixture_fault": null,
+      "notes": "Expected outcomes are annotations, not measurements. Runtime compatibility is not assessed."
+    },
+    {
+      "case_id": "ckv_k8s_37-combined",
+      "variant": "combined",
+      "check_id": "CKV_K8S_37",
+      "yaml": "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: ckv-k8s-37-combined\n  namespace: demo\nspec:\n  replicas: 1\n  selector:\n    matchLabels:\n      app: selected-checks-reference\n  template:\n    metadata:\n      labels:\n        app: selected-checks-reference\n    spec:\n      os:\n        name: linux\n      automountServiceAccountToken: false\n      securityContext:\n        runAsNonRoot: true\n        runAsUser: 10001\n        seccompProfile:\n          type: RuntimeDefault\n      containers:\n      - name: web\n        image: nginxinc/nginx-unprivileged:1.27\n        securityContext:\n          privileged: false\n          allowPrivilegeEscalation: true\n          runAsNonRoot: true\n          capabilities:\n            drop:\n            - NET_RAW\n",
+      "sha256": "e2ec68036e71a7dbeb9092de11298802a7fcf69203f97effd1598452a1a90c29",
+      "requirements": {
+        "api_access": "not_required",
+        "privileged_access": "not_required",
+        "non_root_compatibility": "compatible"
+      },
+      "expected": {
+        "failed_checks": [
+          "CKV_K8S_20",
+          "CKV_K8S_37"
+        ],
+        "target_present": true,
+        "model_eligible": true,
+        "needs_abstention": false,
+        "forbidden_changes": [],
+        "necessary_paths": [
+          "/spec/template/spec/containers/0/securityContext/capabilities/drop"
+        ],
+        "requirements_scorable": true
+      },
+      "fixture_fault": null,
+      "notes": "Expected outcomes are annotations, not measurements. Runtime compatibility is not assessed."
+    },
+    {
+      "case_id": "ckv_k8s_37-fault",
+      "variant": "fault",
+      "check_id": "CKV_K8S_37",
+      "yaml": "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: ckv-k8s-37-fault\n  namespace: demo\nspec:\n  replicas: 1\n  selector:\n    matchLabels:\n      app: selected-checks-reference\n  template:\n    metadata:\n      labels:\n        app: selected-checks-reference\n    spec:\n      os:\n        name: linux\n      automountServiceAccountToken: false\n      securityContext:\n        runAsNonRoot: true\n        runAsUser: 10001\n        seccompProfile:\n          type: RuntimeDefault\n      containers:\n      - name: web\n        image: nginxinc/nginx-unprivileged:1.27\n        securityContext:\n          privileged: false\n          allowPrivilegeEscalation: false\n          runAsNonRoot: true\n          capabilities:\n            drop:\n            - NET_RAW\n",
+      "sha256": "933d12ef673bd464ebb53ed3b1e5e4b5fce94eb8512536be87764d17619b7f6c",
+      "requirements": {
+        "api_access": "not_required",
+        "privileged_access": "not_required",
+        "non_root_compatibility": "compatible"
+      },
+      "expected": {
+        "failed_checks": [
+          "CKV_K8S_37"
+        ],
+        "target_present": true,
+        "model_eligible": false,
+        "needs_abstention": false,
+        "forbidden_changes": [],
+        "necessary_paths": [
+          "/spec/template/spec/containers/0/securityContext/capabilities/drop"
+        ],
+        "requirements_scorable": true
+      },
+      "fixture_fault": "malformed_json",
+      "notes": "Expected outcomes are annotations, not measurements. Runtime compatibility is not assessed."
+    },
+    {
+      "case_id": "ckv_k8s_38-explicit",
+      "variant": "explicit",
+      "check_id": "CKV_K8S_38",
+      "yaml": "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: ckv-k8s-38-explicit\n  namespace: demo\nspec:\n  replicas: 1\n  selector:\n    matchLabels:\n      app: selected-checks-reference\n  template:\n    metadata:\n      labels:\n        app: selected-checks-reference\n    spec:\n      os:\n        name: linux\n      automountServiceAccountToken: true\n      securityContext:\n        runAsNonRoot: true\n        runAsUser: 10001\n        seccompProfile:\n          type: RuntimeDefault\n      containers:\n      - name: web\n        image: nginxinc/nginx-unprivileged:1.27\n        securityContext:\n          privileged: false\n          allowPrivilegeEscalation: false\n          runAsNonRoot: true\n          capabilities:\n            drop:\n            - ALL\n",
+      "sha256": "c4fc823cd0fd0411ff5b1be6eb7de5d4326056df48d45db6e9b68613beaff1b2",
+      "requirements": {
+        "api_access": "not_required",
+        "privileged_access": "not_required",
+        "non_root_compatibility": "compatible"
+      },
+      "expected": {
+        "failed_checks": [
+          "CKV_K8S_38"
+        ],
+        "target_present": true,
+        "model_eligible": true,
+        "needs_abstention": false,
+        "forbidden_changes": [],
+        "necessary_paths": [
+          "/spec/template/spec/automountServiceAccountToken"
+        ],
+        "requirements_scorable": true
+      },
+      "fixture_fault": null,
+      "notes": "Expected outcomes are annotations, not measurements. Runtime compatibility is not assessed."
+    },
+    {
+      "case_id": "ckv_k8s_38-omitted",
+      "variant": "omitted",
+      "check_id": "CKV_K8S_38",
+      "yaml": "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: ckv-k8s-38-omitted\n  namespace: demo\nspec:\n  replicas: 1\n  selector:\n    matchLabels:\n      app: selected-checks-reference\n  template:\n    metadata:\n      labels:\n        app: selected-checks-reference\n    spec:\n      os:\n        name: linux\n      securityContext:\n        runAsNonRoot: true\n        runAsUser: 10001\n        seccompProfile:\n          type: RuntimeDefault\n      containers:\n      - name: web\n        image: nginxinc/nginx-unprivileged:1.27\n        securityContext:\n          privileged: false\n          allowPrivilegeEscalation: false\n          runAsNonRoot: true\n          capabilities:\n            drop:\n            - ALL\n",
+      "sha256": "ceb2179fbdbe28e502ad7f6f2707b60346e4883e2680a679374c0f0a04356819",
+      "requirements": {
+        "api_access": "not_required",
+        "privileged_access": "not_required",
+        "non_root_compatibility": "compatible"
+      },
+      "expected": {
+        "failed_checks": [
+          "CKV_K8S_38"
+        ],
+        "target_present": true,
+        "model_eligible": true,
+        "needs_abstention": false,
+        "forbidden_changes": [],
+        "necessary_paths": [
+          "/spec/template/spec/automountServiceAccountToken"
+        ],
+        "requirements_scorable": true
+      },
+      "fixture_fault": null,
+      "notes": "Expected outcomes are annotations, not measurements. Runtime compatibility is not assessed."
+    },
+    {
+      "case_id": "ckv_k8s_38-context",
+      "variant": "context",
+      "check_id": "CKV_K8S_38",
+      "yaml": "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: ckv-k8s-38-context\n  namespace: demo\n  annotations:\n    example.org/preserve: controlled-context\nspec:\n  replicas: 2\n  selector:\n    matchLabels:\n      app: selected-checks-reference\n  template:\n    metadata:\n      labels:\n        app: selected-checks-reference\n    spec:\n      os:\n        name: linux\n      automountServiceAccountToken: true\n      securityContext:\n        runAsNonRoot: true\n        runAsUser: 10001\n        seccompProfile:\n          type: RuntimeDefault\n      containers:\n      - name: web\n        image: nginxinc/nginx-unprivileged:1.27\n        securityContext:\n          privileged: false\n          allowPrivilegeEscalation: false\n          runAsNonRoot: true\n          capabilities:\n            drop:\n            - ALL\n        env:\n        - name: DEMO_MODE\n          value: test\n",
+      "sha256": "ef656de652eea010937da3d0908474b75243128389523d0035a9e6ff33a6543f",
+      "requirements": {
+        "api_access": "not_required",
+        "privileged_access": "not_required",
+        "non_root_compatibility": "compatible"
+      },
+      "expected": {
+        "failed_checks": [
+          "CKV_K8S_38"
+        ],
+        "target_present": true,
+        "model_eligible": true,
+        "needs_abstention": false,
+        "forbidden_changes": [],
+        "necessary_paths": [
+          "/spec/template/spec/automountServiceAccountToken"
+        ],
+        "requirements_scorable": true
+      },
+      "fixture_fault": null,
+      "notes": "Expected outcomes are annotations, not measurements. Runtime compatibility is not assessed."
+    },
+    {
+      "case_id": "ckv_k8s_38-intent",
+      "variant": "intent",
+      "check_id": "CKV_K8S_38",
+      "yaml": "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: ckv-k8s-38-intent\n  namespace: demo\nspec:\n  replicas: 1\n  selector:\n    matchLabels:\n      app: selected-checks-reference\n  template:\n    metadata:\n      labels:\n        app: selected-checks-reference\n    spec:\n      os:\n        name: linux\n      automountServiceAccountToken: true\n      securityContext:\n        runAsNonRoot: true\n        runAsUser: 10001\n        seccompProfile:\n          type: RuntimeDefault\n      containers:\n      - name: web\n        image: nginxinc/nginx-unprivileged:1.27\n        securityContext:\n          privileged: false\n          allowPrivilegeEscalation: false\n          runAsNonRoot: true\n          capabilities:\n            drop:\n            - ALL\n",
+      "sha256": "99b69016ca0c556041fc7517c6669cc1168f08051bafbe770a6689465f932215",
+      "requirements": {
+        "api_access": "required",
+        "privileged_access": "not_required",
+        "non_root_compatibility": "compatible"
+      },
+      "expected": {
+        "failed_checks": [
+          "CKV_K8S_38"
+        ],
+        "target_present": true,
+        "model_eligible": true,
+        "needs_abstention": true,
+        "forbidden_changes": [
+          {
+            "path": "/spec/template/spec/automountServiceAccountToken",
+            "value": false
+          }
+        ],
+        "necessary_paths": [
+          "/spec/template/spec/automountServiceAccountToken"
+        ],
+        "requirements_scorable": true
+      },
+      "fixture_fault": null,
+      "notes": "Expected outcomes are annotations, not measurements. Runtime compatibility is not assessed."
+    },
+    {
+      "case_id": "ckv_k8s_38-combined",
+      "variant": "combined",
+      "check_id": "CKV_K8S_38",
+      "yaml": "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: ckv-k8s-38-combined\n  namespace: demo\nspec:\n  replicas: 1\n  selector:\n    matchLabels:\n      app: selected-checks-reference\n  template:\n    metadata:\n      labels:\n        app: selected-checks-reference\n    spec:\n      os:\n        name: linux\n      automountServiceAccountToken: true\n      securityContext:\n        runAsNonRoot: true\n        runAsUser: 10001\n        seccompProfile:\n          type: RuntimeDefault\n      containers:\n      - name: web\n        image: nginxinc/nginx-unprivileged:1.27\n        securityContext:\n          privileged: false\n          allowPrivilegeEscalation: true\n          runAsNonRoot: true\n          capabilities:\n            drop:\n            - ALL\n",
+      "sha256": "d8a8faff5bc0044bba38483efb0f4f4494863d58877553ae5c00526a8330503f",
+      "requirements": {
+        "api_access": "not_required",
+        "privileged_access": "not_required",
+        "non_root_compatibility": "compatible"
+      },
+      "expected": {
+        "failed_checks": [
+          "CKV_K8S_20",
+          "CKV_K8S_38"
+        ],
+        "target_present": true,
+        "model_eligible": true,
+        "needs_abstention": false,
+        "forbidden_changes": [],
+        "necessary_paths": [
+          "/spec/template/spec/automountServiceAccountToken"
+        ],
+        "requirements_scorable": true
+      },
+      "fixture_fault": null,
+      "notes": "Expected outcomes are annotations, not measurements. Runtime compatibility is not assessed."
+    },
+    {
+      "case_id": "ckv_k8s_38-fault",
+      "variant": "fault",
+      "check_id": "CKV_K8S_38",
+      "yaml": "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: ckv-k8s-38-fault\n  namespace: demo\nspec:\n  replicas: 1\n  selector:\n    matchLabels:\n      app: selected-checks-reference\n  template:\n    metadata:\n      labels:\n        app: selected-checks-reference\n    spec:\n      os:\n        name: linux\n      automountServiceAccountToken: true\n      securityContext:\n        runAsNonRoot: true\n        runAsUser: 10001\n        seccompProfile:\n          type: RuntimeDefault\n      containers:\n      - name: web\n        image: nginxinc/nginx-unprivileged:1.27\n        securityContext:\n          privileged: false\n          allowPrivilegeEscalation: false\n          runAsNonRoot: true\n          capabilities:\n            drop:\n            - ALL\n",
+      "sha256": "e6de23fe22ac9e454e8310a2a128b60b062276c2a434fe6fb455ec18609db14a",
+      "requirements": {
+        "api_access": "not_required",
+        "privileged_access": "not_required",
+        "non_root_compatibility": "compatible"
+      },
+      "expected": {
+        "failed_checks": [
+          "CKV_K8S_38"
+        ],
+        "target_present": true,
+        "model_eligible": false,
+        "needs_abstention": false,
+        "forbidden_changes": [],
+        "necessary_paths": [
+          "/spec/template/spec/automountServiceAccountToken"
+        ],
+        "requirements_scorable": true
+      },
+      "fixture_fault": "abstention",
+      "notes": "Expected outcomes are annotations, not measurements. Runtime compatibility is not assessed."
+    }
+  ]
+}
